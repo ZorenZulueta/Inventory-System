@@ -34,7 +34,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     const token = jwt.sign(
       { uid: docRef.id, email, role: newUser.role },
       process.env.JWT_SECRET as string,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      { expiresIn: (process.env.JWT_EXPIRES_IN as any) }
     );
 
     res.status(201).json({
@@ -71,7 +71,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const token = jwt.sign(
       { uid: userDoc.id, email: userData.email, role: userData.role },
       process.env.JWT_SECRET as string,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      { expiresIn: (process.env.JWT_EXPIRES_IN as any) }
     );
 
     res.json({

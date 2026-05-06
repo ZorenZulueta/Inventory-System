@@ -24,7 +24,7 @@ if (!fs.existsSync(uploadDir)) {
 
 // ─── Middleware ───────────────────────────────────────────
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin: ['http://localhost:4200', 'https://inventory-system-mu-khaki.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
