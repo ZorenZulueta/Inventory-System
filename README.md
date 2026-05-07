@@ -96,22 +96,32 @@ npm run dev
 ### User Interface
 
 #### Login Page
-![Login Page](screenshots/login.png)
+![Login Page](Screenshot/LoginPage.png)
 *Secure login interface with email and password fields.*
 
-#### Dashboard
-![Dashboard](screenshots/dashboard.png)
-*Main dashboard showing product statistics and recent items.*
+#### Register Page
+![Register Page](Screenshot/RegisterPage.png)
+*User registration form.*
 
-#### Products List
-![Products List](screenshots/products.png)
-*Product listing with search, filters, and pagination.*
+#### Admin Dashboard
+![Admin Dashboard](Screenshot/AdminDashBoard.png)
+*Admin dashboard showing product statistics and recent items.*
 
-#### Add Product Form
-![Add Product](screenshots/add-product.png)
-*Product creation form with image upload capability.*
+#### User Dashboard
+![User Dashboard](Screenshot/UserDashBoard.png)
+*User dashboard with product overview.*
+
+#### Admin Products List
+![Admin Products List](Screenshot/AdminProducts.png)
+*Admin product listing with management options.*
+
+#### User Products List
+![User Products List](Screenshot/UserProducts.png)
+*User product listing with search and filters.*
 
 ### API Testing (Postman)
+
+*Note: API testing screenshots not available in current folder. Add Postman screenshots here when available.*
 
 #### Authentication
 ![Auth API](screenshots/api-auth.png)
