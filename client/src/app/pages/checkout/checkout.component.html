@@ -1,0 +1,115 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="bg-white border-b border-gray-200 px-4 sm:px-6 py-5">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Checkout</h1>
+      <p class="text-gray-500 text-sm mt-1">Complete your order</p>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Form -->
+      <div class="lg:col-span-2">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+
+          <div *ngIf="error"
+               class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+            ⚠️ {{ error }}
+          </div>
+
+          <!-- Shipping -->
+          <div class="bg-white border border-gray-200 rounded-xl p-5">
+            <h3 class="font-bold text-gray-900 mb-4">📦 Shipping Details</h3>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">
+                  Delivery Address *
+                </label>
+                <textarea formControlName="shippingAddress" rows="3"
+                          placeholder="Street, Barangay, City, Province"
+                          class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none">
+                </textarea>
+                <p *ngIf="form.get('shippingAddress')?.touched && form.get('shippingAddress')?.invalid"
+                   class="text-red-500 text-xs mt-1">Address is required</p>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">
+                  Phone Number *
+                </label>
+                <input formControlName="phone" type="tel" placeholder="09XX-XXX-XXXX"
+                       class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <p *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid"
+                   class="text-red-500 text-xs mt-1">Phone is required</p>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">
+                  Order Notes (optional)
+                </label>
+                <textarea formControlName="notes" rows="2"
+                          placeholder="Any special instructions..."
+                          class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none">
+                </textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment -->
+          <div class="bg-white border border-gray-200 rounded-xl p-5">
+            <h3 class="font-bold text-gray-900 mb-4">💳 Payment Method</h3>
+            <div class="space-y-2">
+              <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:border-teal-400 transition"
+                     [class.border-teal-500]="form.value.paymentMethod === 'cod'"
+                     [class.bg-teal-50]="form.value.paymentMethod === 'cod'">
+                <input type="radio" formControlName="paymentMethod" value="cod" class="accent-teal-600">
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">Cash on Delivery</p>
+                  <p class="text-xs text-gray-500">Pay when your order arrives</p>
+                </div>
+              </label>
+              <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:border-teal-400 transition"
+                     [class.border-teal-500]="form.value.paymentMethod === 'gcash'"
+                     [class.bg-teal-50]="form.value.paymentMethod === 'gcash'">
+                <input type="radio" formControlName="paymentMethod" value="gcash" class="accent-teal-600">
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">GCash</p>
+                  <p class="text-xs text-gray-500">Pay via GCash mobile wallet</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" [disabled]="loading || form.invalid"
+                  class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl transition disabled:opacity-50 text-sm sm:text-base">
+            {{ loading ? 'Placing Order...' : '✅ Place Order' }}
+          </button>
+        </form>
+      </div>
+
+      <!-- Summary -->
+      <div>
+        <div class="bg-white border border-gray-200 rounded-xl p-5 sticky top-20">
+          <h3 class="font-bold text-gray-900 mb-4">Order Summary</h3>
+          <div class="space-y-2 mb-4 max-h-48 overflow-y-auto">
+            <div *ngFor="let item of cart.items" class="flex justify-between text-sm text-gray-600">
+              <span class="truncate mr-2">{{ item.name }} × {{ item.quantity }}</span>
+              <span class="flex-shrink-0 font-medium">{{ formatCurrency(item.price * item.quantity) }}</span>
+            </div>
+          </div>
+          <div class="border-t border-gray-100 pt-4">
+            <div class="flex justify-between font-bold text-gray-900">
+              <span>Total</span>
+              <span class="text-teal-600 text-lg">{{ formatCurrency(cart.totalPrice) }}</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">{{ cart.totalItems }} item(s)</p>
+          </div>
+          <a routerLink="/cart"
+             class="block text-center text-gray-500 hover:text-gray-700 text-xs mt-4 font-medium transition">
+            ← Edit Cart
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

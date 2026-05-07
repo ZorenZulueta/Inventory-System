@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { Product } from '../../models';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, NavbarComponent],
+  imports: [CommonModule, RouterLink, FormsModule, NavbarComponent, RouterModule],
   template: `
     <div class="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100">
       <app-navbar />
@@ -110,6 +111,15 @@ import { Product } from '../../models';
                     </span>
                   </td>
 
+                  <td *ngIf="!auth.isAdmin()" class="px-6 py-5 text-right">
+                    <button (click)="cartService.addToCart(p)"
+                            [class]="cartService.isInCart(p.id!) 
+                              ? 'inline-flex rounded-lg border border-teal-300 bg-teal-100 px-3 py-2 text-sm font-semibold text-teal-700 cursor-default'
+                              : 'inline-flex rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-sm font-semibold text-teal-700 hover:bg-teal-100 transition'">
+                      {{ cartService.isInCart(p.id!) ? '✅ Added' : '🛒 Add to Cart' }}
+                    </button>
+                  </td>
+
                   <td *ngIf="auth.isAdmin()" class="px-6 py-5 text-right">
                     <div class="flex items-center justify-end gap-2">
                       <a [routerLink]="['/products/edit', p.id]"
@@ -161,7 +171,7 @@ export class ProductsComponent implements OnInit {
   pagination = { total: 0, page: 1, limit: 10, totalPages: 1 };
   private searchTimeout: any;
 
-  constructor(public auth: AuthService, private productService: ProductService) {}
+  constructor(public auth: AuthService, private productService: ProductService, public cartService: CartService) {}
 
   ngOnInit(): void {
     this.loadProducts();

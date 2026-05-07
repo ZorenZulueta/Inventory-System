@@ -1,8 +1,81 @@
 import { Router } from 'express';
 import { authMiddleware, adminOnly } from '../middleware/auth.middleware';
 import { db } from '../config/firebase';
+import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
+
+// POST /api/orders — place order
+router.post('/', authMiddleware, async (req, res) => {
+  try {
+    const { items, totalAmount, shippingAddress, phone, notes, paymentMethod } = req.body;
+    if (!items?.length) {
+      res.status(400).json({ message: 'No items in order' });
+      return;
+    }
+
+    const orderRef = db.collection('orders').doc();
+    const order = {
+      id: orderRef.id,
+      orderNumber: 'ORD-' + Date.now(),
+      userId: (req as any).user?.uid,
+      userName: (req as any).user?.name,
+      userEmail: (req as any).user?.email,
+      items,
+      totalAmount,
+      shippingAddress,
+      phone,
+      notes: notes || '',
+      paymentMethod: paymentMethod || 'cod',
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    await orderRef.set(order);
+    res.status(201).json({ message: 'Order placed successfully', order });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET /api/orders/my — user's own orders
+router.get('/my', authMiddleware, async (req, res) => {
+  try {
+    const snap = await db.collection('orders')
+      .where('userId', '==', (req as any).user?.uid)
+      .orderBy('createdAt', 'desc')
+      .get();
+    const orders = snap.docs.map(d => d.data());
+    res.json(orders);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET /api/orders — admin: all orders
+router.get('/', authMiddleware, adminOnly, async (req, res) => {
+  try {
+    const snap = await db.collection('orders').orderBy('createdAt', 'desc').get();
+    res.json(snap.docs.map(d => d.data()));
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// PATCH /api/orders/:id/status — admin: update status
+router.patch('/:id/status', authMiddleware, adminOnly, async (req, res) => {
+  try {
+    const { status } = req.body;
+    await db.collection('orders').doc(req.params.id).update({
+      status,
+      updatedAt: new Date().toISOString(),
+    });
+    res.json({ message: 'Status updated' });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // GET /api/orders/stats — Admin dashboard stats
 router.get('/stats', authMiddleware, adminOnly, async (req, res) => {

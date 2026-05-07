@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -26,7 +27,7 @@ export class NavbarComponent implements OnInit {
     { path: '/admin/products', icon: '🏷️', label: 'Manage Products', adminOnly: true },
   ];
 
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(private auth: AuthService, private router: Router, public cartService: CartService) {
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         this.currentRoute = e.url;

@@ -23,6 +23,15 @@
             {{ link.label }}
           </a>
         </ng-container>
+        <!-- Cart Icon (non-admin only) -->
+        <a *ngIf="isLoggedIn && !isAdmin" routerLink="/cart"
+           class="relative flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition">
+          🛒
+          <span *ngIf="cartService.totalItems > 0"
+                class="absolute -top-1 -right-1 bg-teal-600 text-white text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center">
+            {{ cartService.totalItems }}
+          </span>
+        </a>
       </div>
 
       <!-- Desktop Right Side -->
