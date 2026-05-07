@@ -1,5 +1,5 @@
 {
   "buildCommand": "npm run build -- --configuration production",
-  "outputDirectory": "dist/client/browser",
+  "outputDirectory": "dist/client",
   "framework": "angular"
 }

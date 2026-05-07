@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4 py-10">
+    <div class="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100 flex items-center justify-center px-4 py-10">
       <div class="relative w-full max-w-6xl overflow-hidden rounded-[32px] bg-white shadow-[0_30px_60px_-30px_rgba(15,23,42,0.45)] transform transition-all duration-500 hover:shadow-[0_40px_80px_-40px_rgba(15,23,42,0.6)]">
         <div class="absolute -left-28 -top-24 h-72 w-72 rounded-full bg-gradient-to-br from-teal-200 to-teal-300 opacity-80 blur-3xl animate-pulse"></div>
         <div class="absolute -right-28 -bottom-24 h-72 w-72 rounded-full bg-gradient-to-br from-sky-200 to-blue-300 opacity-80 blur-3xl animate-pulse" style="animation-delay: 1s;"></div>

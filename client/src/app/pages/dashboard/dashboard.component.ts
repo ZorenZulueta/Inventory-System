@@ -5,13 +5,14 @@ import { ProductService } from '../../services/product.service';
 import { AuthService } from '../../services/auth.service';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { Product } from '../../services/product.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, RouterLink, NavbarComponent],
   template: `
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50">
+    <div class="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100">
       <app-navbar />
 
       <div class="max-w-7xl mx-auto px-6 py-10">
@@ -107,7 +108,7 @@ import { Product } from '../../services/product.service';
                   <td class="px-6 py-5">
                     <div class="flex items-center gap-4">
                       <div class="flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden shadow-sm transition-transform duration-200 hover:scale-110">
-                        <img *ngIf="p.imageUrl" [src]="'http://localhost:3000' + p.imageUrl" class="h-full w-full object-cover" />
+                        <img *ngIf="p.imageUrl" [src]="backendUrl + p.imageUrl" class="h-full w-full object-cover" />
                         <svg *ngIf="!p.imageUrl" class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                           <rect x="3" y="3" width="18" height="18" rx="2" />
                           <circle cx="8.5" cy="8.5" r="1.5" />
@@ -144,6 +145,7 @@ export class DashboardComponent implements OnInit {
   categories = 0;
   recentProducts: Product[] = [];
   loading = true;
+  backendUrl = environment.apiUrl.replace(/\/api$/, '');
   get firstName(): string { return this.auth.getCurrentUser()?.name?.split(' ')?.[0] ?? 'there'; }
 
   constructor(public auth: AuthService, private productService: ProductService) {}

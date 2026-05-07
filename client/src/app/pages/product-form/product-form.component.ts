@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
+import { environment } from '../../../environments/environment';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
@@ -10,7 +11,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink, NavbarComponent],
   template: `
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50">
+    <div class="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100">
       <app-navbar />
 
       <div class="max-w-4xl mx-auto px-6 py-10">
@@ -138,6 +139,7 @@ export class ProductFormComponent implements OnInit {
   productId = '';
   selectedFile: File | null = null;
   previewUrl: string | null = null;
+  backendUrl = environment.apiUrl.replace(/\/api$/, '');
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private productService: ProductService) {
     this.form = this.fb.group({
@@ -156,7 +158,7 @@ export class ProductFormComponent implements OnInit {
     this.isEdit = !!this.productId;
     if (this.isEdit) {
       this.productService.getProduct(this.productId).subscribe({
-        next: (p) => { this.form.patchValue(p); if (p.imageUrl) this.previewUrl = 'http://localhost:3000' + p.imageUrl; },
+        next: (p) => { this.form.patchValue(p); if (p.imageUrl) this.previewUrl = this.backendUrl + p.imageUrl; },
         error: () => this.router.navigate(['/products']),
       });
     }

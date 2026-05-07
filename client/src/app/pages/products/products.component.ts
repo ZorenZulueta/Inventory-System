@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { Product } from '../../models';
 
@@ -12,7 +13,7 @@ import { Product } from '../../models';
   standalone: true,
   imports: [CommonModule, RouterLink, FormsModule, NavbarComponent],
   template: `
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50">
+    <div class="min-h-screen bg-gradient-to-br from-white via-blue-50 to-blue-100">
       <app-navbar />
 
       <div class="max-w-7xl mx-auto px-6 py-10">
@@ -156,7 +157,7 @@ export class ProductsComponent implements OnInit {
   loading = true;
   search = '';
   category = '';
-  apiUrl = 'http://localhost:3000';
+  apiUrl = environment.apiUrl.replace(/\/api$/, '');
   pagination = { total: 0, page: 1, limit: 10, totalPages: 1 };
   private searchTimeout: any;
 
