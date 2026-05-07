@@ -25,10 +25,7 @@ if (!fs.existsSync(uploadDir)) {
 
 // ─── Middleware ───────────────────────────────────────────
 app.use(cors({
-  origin: [
-    'http://localhost:4200',
-    'https://inventory-system-dprj5i9no-zorenzuluetas-projects.vercel.app'
-  ],
+  origin: true,
   credentials: true,
 }));
 app.use(express.json());
