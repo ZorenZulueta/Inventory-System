@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
   currentRoute = '';
 
   navLinks = [
-    { path: '/dashboard', icon: '📊', label: 'Dashboard', adminOnly: false },
+    { path: '/dashboard', icon: '📊', label: 'Dashboard', adminOnly: true },
     { path: '/products', icon: '📦', label: 'Products', adminOnly: false },
     { path: '/orders', icon: '🛒', label: 'My Orders', adminOnly: false },
     { path: '/admin/orders', icon: '📋', label: 'Manage Orders', adminOnly: true },
