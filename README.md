@@ -124,14 +124,14 @@ npm run dev
 *Note: API testing screenshots not available in current folder. Add Postman screenshots here when available.*
 
 #### Authentication
-![Auth API](screenshots/api-auth.png)
+![Auth API](screenshot/api-auth.png)
 *POST /api/auth/login endpoint testing.*
 
 #### Products CRUD
-![Products API](screenshots/api-products.png)
+![Products API](screenshot/api-products.png)
 *GET /api/products endpoint with pagination.*
 
 #### Product Creation
-![Create Product API](screenshots/api-create-product.png)
+![Create Product API](screenshot/api-create-product.png)
 *POST /api/products with form data and image upload.*
 
