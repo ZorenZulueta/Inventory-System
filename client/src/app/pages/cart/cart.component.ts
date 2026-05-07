@@ -28,7 +28,10 @@ export class CartComponent implements OnInit {
     this.cart.remove(productId);
   }
 
+  fmt(n: number): string { return `?${n.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`; }
+
   formatCurrency(amount: number): string {
     return `₱${amount.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`;
   }
 }
+
