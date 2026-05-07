@@ -16,7 +16,7 @@ router.post('/', authMiddleware, async (req, res) => {
       id: orderRef.id,
       orderNumber: 'ORD-' + Date.now(),
       userId: uid,
-      userName: (req as any).user?.name || (req as any).user?.displayName || '',
+      userName: (req as any).user?.name || (req as any).user?.displayName || (req as any).user?.email?.split('@')[0] || '',
       userEmail: (req as any).user?.email || '',
       items,
       totalAmount,
@@ -106,3 +106,4 @@ router.get('/stats', authMiddleware, adminOnly, async (req, res) => {
 });
 
 export default router;
+
