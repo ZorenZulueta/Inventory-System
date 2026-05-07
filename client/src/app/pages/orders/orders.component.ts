@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-orders',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterModule],
   templateUrl: './orders.component.html',
 })
@@ -17,7 +18,7 @@ export class OrdersComponent implements OnInit {
   expandedOrder: string | null = null;
   apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -29,8 +30,8 @@ export class OrdersComponent implements OnInit {
 
   loadOrders(): void {
     this.http.get<any[]>(`${this.apiUrl}/orders/my`).subscribe({
-      next: (data) => { this.orders = Array.isArray(data) ? data : []; this.loading = false; console.log("Orders loaded:", this.orders.length); },
-      error: () => { this.loading = false; }
+      next: (data) => { this.orders = Array.isArray(data) ? data : []; this.loading = false; this.cdr.markForCheck(); console.log("Orders loaded:", this.orders.length); },
+      error: () => { this.loading = false; this.cdr.markForCheck(); }
     });
   }
 
@@ -52,4 +53,5 @@ export class OrdersComponent implements OnInit {
     } as any)[status] || { color: 'bg-gray-100 text-gray-600', icon: '•' };
   }
 }
+
 
