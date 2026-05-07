@@ -148,7 +148,10 @@ export class RegisterComponent {
     const { name, email, password } = this.form.value;
     this.auth.register({ name, email, password }).subscribe({
       next: () => this.router.navigate(['/dashboard']),
-      error: (e) => { this.error = e?.error?.message || 'Registration failed.'; this.loading = false; },
+      error: (e) => {
+        this.error = e?.error?.message || e?.message || 'Registration failed.';
+        this.loading = false;
+      },
     });
   }
 }

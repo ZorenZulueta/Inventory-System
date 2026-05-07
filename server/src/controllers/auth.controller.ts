@@ -1,12 +1,27 @@
 import { Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../config/firebase';
 import { User } from '../types';
 
+const getValidationErrorMessage = (req: Request): string | null => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return errors.array()[0].msg;
+  }
+  return null;
+};
+
 // POST /api/auth/register
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
+    const validationError = getValidationErrorMessage(req);
+    if (validationError) {
+      res.status(400).json({ message: validationError });
+      return;
+    }
+
     const { name, email, password, role = 'user' } = req.body;
 
     // Check if email already exists
@@ -51,6 +66,12 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 // POST /api/auth/login
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
+    const validationError = getValidationErrorMessage(req);
+    if (validationError) {
+      res.status(400).json({ message: validationError });
+      return;
+    }
+
     const { email, password } = req.body;
 
     const snapshot = await db.collection('users').where('email', '==', email).get();
