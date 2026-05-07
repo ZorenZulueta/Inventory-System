@@ -29,7 +29,7 @@ export class OrdersComponent implements OnInit {
 
   loadOrders(): void {
     this.http.get<any[]>(`${this.apiUrl}/orders/my`).subscribe({
-      next: (data) => { this.orders = data || []; this.loading = false; },
+      next: (data) => { this.orders = Array.isArray(data) ? data : []; this.loading = false; console.log("Orders loaded:", this.orders.length); },
       error: () => { this.loading = false; }
     });
   }
@@ -52,3 +52,4 @@ export class OrdersComponent implements OnInit {
     } as any)[status] || { color: 'bg-gray-100 text-gray-600', icon: '•' };
   }
 }
+
