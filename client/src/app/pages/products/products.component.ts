@@ -169,8 +169,8 @@ export class ProductsComponent implements OnInit {
       category: this.category
     }).subscribe({
       next: (res: any) => {
-        this.products = res.products || res;
-        if (res.pagination) this.pagination = { ...this.pagination, ...res.pagination };
+        this.products = (res as any).data || (res as any).products || res;
+        if ((res as any).pagination) this.pagination = { ...this.pagination, ...(res as any).pagination };
         this.loading = false;
       },
       error: () => this.loading = false
@@ -197,3 +197,5 @@ export class ProductsComponent implements OnInit {
     this.productService.deleteProduct(id).subscribe({ next: () => this.loadProducts() });
   }
 }
+
+
