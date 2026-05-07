@@ -38,18 +38,17 @@ export class OrdersComponent implements OnInit {
     this.expandedOrder = this.expandedOrder === id ? null : id;
   }
 
-  getStatusConfig(status: string): any {
-    const map: any = {
-      pending:    { color: 'bg-yellow-100 text-yellow-700 border border-yellow-200', icon: '⏳' },
-      processing: { color: 'bg-blue-100 text-blue-700 border border-blue-200', icon: '🔄' },
-      shipped:    { color: 'bg-purple-100 text-purple-700 border border-purple-200', icon: '🚚' },
-      delivered:  { color: 'bg-green-100 text-green-700 border border-green-200', icon: '✅' },
-      cancelled:  { color: 'bg-red-100 text-red-700 border border-red-200', icon: '❌' },
-    };
-    return map[status] || { color: 'bg-gray-100 text-gray-600', icon: '•' };
+  formatCurrency(n: number): string {
+    return `?${(n||0).toLocaleString('en-PH', { minimumFractionDigits: 2 })}`;
   }
 
-  formatCurrency(amount: number): string {
-    return `₱${(amount || 0).toLocaleString('en-PH', { minimumFractionDigits: 2 })}`;
+  getStatusConfig(status: string): any {
+    return ({
+      pending:    { color: 'bg-yellow-100 text-yellow-700', icon: '?' },
+      processing: { color: 'bg-blue-100 text-blue-700', icon: '??' },
+      shipped:    { color: 'bg-purple-100 text-purple-700', icon: '??' },
+      delivered:  { color: 'bg-green-100 text-green-700', icon: '?' },
+      cancelled:  { color: 'bg-red-100 text-red-700', icon: '?' },
+    } as any)[status] || { color: 'bg-gray-100 text-gray-600', icon: '�' };
   }
 }
