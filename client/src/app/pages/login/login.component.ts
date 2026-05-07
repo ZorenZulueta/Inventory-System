@@ -131,8 +131,9 @@ export class LoginComponent {
     this.loading = true; this.error = '';
     const { email, password } = this.form.value;
     this.auth.login({ email, password }).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => { const user = this.auth.getCurrentUser(); this.router.navigate([user?.role === 'admin' ? '/dashboard' : '/products']); },
       error: (e: any) => { this.error = e?.error?.message || 'Invalid credentials.'; this.loading = false; },
     });
   }
 }
+

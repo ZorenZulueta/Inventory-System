@@ -58,5 +58,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/admin-orders/admin-orders.component').then(m => m.AdminOrdersComponent),
     canActivate: [authGuard, adminGuard],
   },
-  { path: '**', redirectTo: 'dashboard' },
+  { path: '**', redirectTo: 'products' },
 ];
+
