@@ -1,8 +1,1 @@
-{
-  "buildCommand": "npm run build -- --configuration production",
-  "outputDirectory": "dist/client",
-  "framework": "angular",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
+{"rewrites":[{"source":"/(.*)","destination":"/index.html"}]}
