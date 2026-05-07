@@ -53,5 +53,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/orders/orders.component').then(m => m.OrdersComponent),
     canActivate: [authGuard],
   },
+  {
+    path: 'admin/orders',
+    loadComponent: () => import('./pages/admin-orders/admin-orders.component').then(m => m.AdminOrdersComponent),
+    canActivate: [authGuard, adminGuard],
+  },
   { path: '**', redirectTo: 'dashboard' },
 ];

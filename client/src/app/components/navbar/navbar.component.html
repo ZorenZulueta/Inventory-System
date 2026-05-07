@@ -32,6 +32,11 @@
             {{ cartService.totalItems }}
           </span>
         </a>
+        <!-- Admin Orders Link -->
+        <a *ngIf="isAdmin" routerLink="/admin/orders" routerLinkActive="bg-teal-50 text-teal-700"
+           class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition">
+          📋 Orders
+        </a>
       </div>
 
       <!-- Desktop Right Side -->
