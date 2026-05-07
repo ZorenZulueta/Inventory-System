@@ -9,6 +9,7 @@ import fs from 'fs';
 import { swaggerSpec } from './config/swagger';
 import authRoutes from './routes/auth.routes';
 import productRoutes from './routes/product.routes';
+import orderRoutes from './routes/order.routes';
 import { errorHandler, notFound } from './middleware/error.middleware';
 
 dotenv.config();
@@ -41,6 +42,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // ─── Routes ───────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Health check
 app.get('/api/health', (_req, res) => {

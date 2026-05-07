@@ -1,0 +1,161 @@
+<nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-14 sm:h-16">
+
+      <!-- Logo -->
+      <a routerLink="/" class="flex items-center gap-2.5 text-teal-600 hover:text-teal-700 transition flex-shrink-0">
+        <div class="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+          S
+        </div>
+        <span class="text-lg sm:text-xl font-bold text-gray-900">Stock<span class="text-teal-600">Flow</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden md:flex items-center gap-1">
+        <ng-container *ngFor="let link of navLinks">
+          <a *ngIf="isLoggedIn && (!link.adminOnly || isAdmin)"
+             [routerLink]="link.path"
+             [class]="'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition ' +
+               (isActive(link.path)
+                 ? 'bg-teal-50 text-teal-700'
+                 : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900')">
+            <span class="text-base">{{ link.icon }}</span>
+            {{ link.label }}
+          </a>
+        </ng-container>
+      </div>
+
+      <!-- Desktop Right Side -->
+      <div class="hidden md:flex items-center gap-3">
+        <ng-container *ngIf="!isLoggedIn">
+          <a routerLink="/login"
+             class="text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+            Login
+          </a>
+          <a routerLink="/register"
+             class="bg-teal-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-teal-700 transition">
+            Register
+          </a>
+        </ng-container>
+
+        <ng-container *ngIf="isLoggedIn">
+          <!-- User Dropdown -->
+          <div class="relative user-menu-wrapper">
+            <button (click)="toggleMenu($event)"
+                    class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-2 transition border border-gray-200">
+              <div class="w-7 h-7 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                {{ getInitial() }}
+              </div>
+              <span class="text-sm font-medium text-gray-800 max-w-28 truncate">{{ userName }}</span>
+              <svg class="w-3.5 h-3.5 text-gray-500 transition-transform" [class.rotate-180]="menuOpen" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+
+            <!-- Dropdown -->
+            <div *ngIf="menuOpen"
+                 class="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
+              <!-- User Info -->
+              <div class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold">
+                    {{ getInitial() }}
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-sm font-semibold text-gray-900 truncate">{{ userName }}</p>
+                    <p class="text-xs text-gray-500 truncate">{{ userEmail }}</p>
+                  </div>
+                </div>
+                <span class="mt-2 inline-block text-xs font-bold px-2 py-0.5 rounded-full"
+                      [class]="isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-teal-100 text-teal-700'">
+                  {{ isAdmin ? 'Admin' : 'User' }}
+                </span>
+              </div>
+
+              <a routerLink="/profile" (click)="menuOpen = false"
+                 class="flex items-center gap-2.5 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition border-b border-gray-100">
+                <span>👤</span> My Profile
+              </a>
+              <a *ngIf="!isAdmin" routerLink="/orders" (click)="menuOpen = false"
+                 class="flex items-center gap-2.5 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition border-b border-gray-100">
+                <span>🛒</span> My Orders
+              </a>
+              <button (click)="logout()"
+                      class="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-red-500 hover:bg-red-50 transition">
+                <span>🚪</span> Sign Out
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Mobile Right -->
+      <div class="flex md:hidden items-center gap-2">
+        <ng-container *ngIf="!isLoggedIn">
+          <a routerLink="/login" class="text-sm font-medium text-gray-600 px-3 py-1.5">Login</a>
+          <a routerLink="/register" class="bg-teal-600 text-white text-sm font-semibold px-3 py-1.5 rounded-lg">Register</a>
+        </ng-container>
+
+        <ng-container *ngIf="isLoggedIn">
+          <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-sm font-bold">
+            {{ getInitial() }}
+          </div>
+          <button (click)="toggleMobileMenu()"
+                  class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition mobile-menu-wrapper">
+            <svg *ngIf="!mobileMenuOpen" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg *ngIf="mobileMenuOpen" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div *ngIf="mobileMenuOpen && isLoggedIn"
+       class="md:hidden border-t border-gray-200 bg-white shadow-lg">
+    <!-- User Info -->
+    <div class="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold">
+        {{ getInitial() }}
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-gray-900">{{ userName }}</p>
+        <p class="text-xs text-gray-500">{{ userEmail }}</p>
+      </div>
+      <span class="ml-auto text-xs font-bold px-2 py-0.5 rounded-full"
+            [class]="isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-teal-100 text-teal-700'">
+        {{ isAdmin ? 'Admin' : 'User' }}
+      </span>
+    </div>
+
+    <!-- Nav Links -->
+    <div class="py-2">
+      <ng-container *ngFor="let link of navLinks">
+        <a *ngIf="!link.adminOnly || isAdmin"
+           [routerLink]="link.path"
+           (click)="mobileMenuOpen = false"
+           [class]="'flex items-center gap-3 px-4 py-3 text-sm font-medium transition border-b border-gray-50 ' +
+             (isActive(link.path)
+               ? 'bg-teal-50 text-teal-700'
+               : 'text-gray-700 hover:bg-gray-50')">
+          <span class="text-lg">{{ link.icon }}</span>
+          {{ link.label }}
+        </a>
+      </ng-container>
+
+      <a routerLink="/profile" (click)="mobileMenuOpen = false"
+         class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 border-b border-gray-50">
+        <span class="text-lg">👤</span> My Profile
+      </a>
+
+      <button (click)="logout()"
+              class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50">
+        <span class="text-lg">🚪</span> Sign Out
+      </button>
+    </div>
+  </div>
+</nav>
