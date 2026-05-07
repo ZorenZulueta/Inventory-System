@@ -40,6 +40,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ─── Routes ───────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
+app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 
@@ -59,3 +60,4 @@ app.listen(PORT, () => {
 });
 
 export default app;
+
