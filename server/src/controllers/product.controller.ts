@@ -14,16 +14,13 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
 
     let query: FirebaseFirestore.Query = db.collection(COLLECTION);
 
-    // Apply where clauses first (Firestore requirement)
     if (category && category !== '') {
       query = query.where('category', '==', category);
     }
 
-    // Then apply orderBy - note: this may require a composite index if used with where clauses
-    query = query.orderBy('createdAt', 'desc');
-
     const snapshot = await query.get();
     let products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Product[];
+    products.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     // Search by name (client-side, Firestore free tier doesn't support full-text)
     if (search) {
@@ -158,3 +155,5 @@ export const getCategories = async (_req: Request, res: Response): Promise<void>
     res.status(500).json({ message: 'Failed to fetch categories' });
   }
 };
+
+
