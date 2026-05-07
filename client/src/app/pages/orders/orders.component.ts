@@ -34,7 +34,7 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  toggleExpand(id: string): void {
+  toggle(id: string): void {
     this.expandedOrder = this.expandedOrder === id ? null : id;
   }
 

@@ -19,7 +19,7 @@
     </div>
     <div *ngIf="!loading && orders.length > 0" class="space-y-4">
       <div *ngFor="let order of orders" class="bg-white border rounded-xl overflow-hidden">
-        <div class="px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 cursor-pointer" (click)="toggleExpand(order.id)">
+        <div class="px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 cursor-pointer" (click)="toggle(order.id)">
           <div>
             <div class="flex items-center gap-2 flex-wrap">
               <p class="font-bold text-gray-900 text-sm">{{ order.orderNumber || '#' + order.id?.substring(0,8) }}</p>

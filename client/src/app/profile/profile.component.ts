@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -112,7 +113,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  get apiUrl(): string { return 'http://localhost:3000/api'; }
+  get apiUrl(): string { return environment.apiUrl; }
   getInitial(): string { return (this.profile?.name || '?').charAt(0).toUpperCase(); }
 
   getStatusConfig(status: string): any {
@@ -130,3 +131,5 @@ export class ProfileComponent implements OnInit {
     return `₱${(amount || 0).toLocaleString('en-PH', { minimumFractionDigits: 2 })}`;
   }
 }
+
+
