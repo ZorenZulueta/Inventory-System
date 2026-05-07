@@ -33,5 +33,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/product-form/product-form.component').then(m => m.ProductFormComponent),
     canActivate: [authGuard, adminGuard],
   },
+  {
+    path: 'profile',
+    loadComponent: () => import('./profile/profile.component').then(m => m.ProfileComponent),
+    canActivate: [authGuard],
+  },
   { path: '**', redirectTo: 'dashboard' },
 ];
