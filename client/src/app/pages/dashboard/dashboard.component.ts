@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -82,9 +83,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getApiUrl(): string {
-    return 'http://localhost:3000/api';
-  }
+  getApiUrl(): string { return environment.apiUrl; }
 
   getGreeting(): string {
     const h = new Date().getHours();
@@ -127,3 +126,5 @@ export class DashboardComponent implements OnInit {
     return map[color] || 'bg-gray-50 text-gray-600 border-gray-200';
   }
 }
+
+
