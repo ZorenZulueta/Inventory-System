@@ -158,7 +158,7 @@
 
       <a *ngIf="!isAdmin" routerLink="/cart" (click)="mobileMenuOpen = false"
          class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 border-b border-gray-50">
-        <span class="text-lg">??</span> My Cart
+        <span class="text-lg"></span> My Cart
         <span *ngIf="cartService.totalItems > 0" class="ml-auto bg-teal-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">{{ cartService.totalItems }}</span>
       </a>
       <a routerLink="/profile" (click)="mobileMenuOpen = false"
